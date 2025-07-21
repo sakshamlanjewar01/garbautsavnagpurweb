@@ -1,10 +1,13 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, Suspense } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import ScrollReveal from '@/components/ScrollReveal'
 import PageWrapper from '@/components/PageWrapper'
 import Link from 'next/link'
+import GlowButton from '@/components/GlowButton'
+import { Canvas } from '@react-three/fiber'
+
 
 export default function HomeSection() {
   const ref = useRef(null)
@@ -13,11 +16,8 @@ export default function HomeSection() {
 
   return (
     <section id="home" ref={ref} className="relative overflow-hidden">
-      {/* 🔹 Background Images with Animation */}
-      <motion.div
-        style={{ y: bgY }}
-        className="absolute inset-0 z-0 pointer-events-none"
-      >
+      {/* 🔹 Background Images with Scroll Effect */}
+      <motion.div style={{ y: bgY }} className="absolute inset-0 z-0 pointer-events-none">
         <motion.img
           src="/garba1.jpeg"
           alt="Garba 1"
@@ -44,7 +44,18 @@ export default function HomeSection() {
         />
       </motion.div>
 
-      {/* 🔹 Main Foreground Content */}
+      {/* 🔹 3D Diya Background */}
+      <div className="absolute inset-0 z-0">
+        <Canvas>
+          <ambientLight intensity={1} />
+          <directionalLight position={[2, 5, 2]} />
+          <Suspense fallback={null}>
+
+          </Suspense>
+        </Canvas>
+      </div>
+
+      {/* 🔹 Foreground Content */}
       <div className="relative z-10">
         <PageWrapper>
           <section className="h-screen flex flex-col justify-center items-center bg-gradient-to-br from-purple-600 to-pink-500 text-white px-4 text-center">
@@ -73,9 +84,7 @@ export default function HomeSection() {
             >
               <Link href="#buy-tickets">
                 <ScrollReveal>
-                  <button className="bg-white text-purple-700 font-semibold px-6 py-3 rounded-full shadow hover:bg-gray-100 transition">
-                    Book Your Tickets
-                  </button>
+                  <GlowButton>Book Your Tickets</GlowButton>
                 </ScrollReveal>
               </Link>
             </motion.div>
